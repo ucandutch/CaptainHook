@@ -1300,7 +1300,6 @@
         private Label label8;
         private Button button4;
         private System.Windows.Forms.Timer timerWalk;
-        public Label labelStatus;
         private CheckBox Pathfinder;
         private PictureBox pictureBoxSettings;
         private GroupBox groupBoxSettings;
@@ -1367,5 +1366,6 @@
         private Label label37;
         private Label label38;
         private PictureBox pictureBox5;
+        private Label labelStatus;
     }
 }

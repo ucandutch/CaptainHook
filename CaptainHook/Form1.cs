@@ -62,6 +62,7 @@ namespace CaptainHook
         private bool isClickAndHoldActive;
         private Rectangle selectedRegion;
         //private string[] originalItems = { };
+        private SmallApp smallAppForm;
 
         public Form1()
         {
@@ -122,10 +123,54 @@ namespace CaptainHook
         }
         string data;
         Point mousekoordinatson;
+        private void ButtonSmallStart_Click(object sender, EventArgs e)
+        {
+            // Handle button click event
+            baslatbutonu();
+        }
+        private void ButtonSmallStop_Click(object sender, EventArgs e)
+        {
+            // Handle button click event
+            stopbuttonu();
+        }
+        private void ButtonSmallClose_Click(object sender, EventArgs e)
+        {
+            // kapat butonu fonks.
+            this.Close();
+        }
+        public void getnewlocation()
+        {
+            // olta atım noktasının değiştirilmesi fonks.
+            using (RegionDrawingForm regionDrawingForm = new RegionDrawingForm())
+            {
+                if (regionDrawingForm.ShowDialog() == DialogResult.OK)
+                {
+                    savedCoordinate = regionDrawingForm.SelectedCoordinate;
+
+                    labelCoordinate.Text =
+                        $"{savedCoordinate.X}, {savedCoordinate.Y}";
+                }
+            }
+        }
+        private void ButtonSmallLocation_Click(object sender, EventArgs e)
+        {
+           getnewlocation();
+        }
+        //SmallApp smallAppForm = new SmallApp();
+
+        public void ShowMainForm()
+        {
+            this.Show();
+        }
+        // Instantiate SmallApp form
+        //private SmallApp smallAppForm;
+        Point formlokasyon2;
         private void Form1_Load(object sender, EventArgs e)
         {
-            listBox1.BackColor = Color.FromArgb(210, 180, 140);
 
+        listBox1.BackColor = Color.FromArgb(210, 180, 140);
+            // Set label text
+           
             this.TransparencyKey =
                 Color.Magenta;  // You can choose a color that is not in your image
 
@@ -133,8 +178,22 @@ namespace CaptainHook
             // okunması ve güncellenmesi.
             labelDate.Text = DateTime.Now.ToString("dddd, dd MMMM yyyy");
             this.TopMost = true;
+           
+
             try
             {
+                smallAppForm = new SmallApp();
+                smallAppForm.MainFormReference = this; // Pass reference to SmallApp
+
+                // Show the main form
+                this.Show();
+                smallAppForm.LabelText = labelStatus.Text;
+
+                // Set button click event
+                smallAppForm.StartButonu(ButtonSmallStart_Click);
+                smallAppForm.StopButonu(ButtonSmallStop_Click);
+                smallAppForm.CloseButonu(ButtonSmallClose_Click);
+                //smallAppForm.LocationButonu(ButtonSmallLocation_Click);
                 using (StreamReader streamReader = new StreamReader("userData.txt"))
                 {
                     // AYARLARI KAYDET CHECKBOX KAYDINI OKUMA
@@ -257,14 +316,46 @@ namespace CaptainHook
                     // OLTA ARA SAYACI TEXTBOX READ
                     data = streamReader.ReadLine();
                     textBoxOltaAraSuresi.Text = data.ToString();
+                    // Form2 LOKASYON KAYDI 
+                    data = streamReader.ReadLine();
+                    if (TryParseCoordinates(data, out int parsedX2, out int parsedY2))
+                    {
+                        Debug.WriteLine($"Parsed X: {parsedX2}, Parsed Y: {parsedY2}");
+
+                        formlokasyon2 = new Point(parsedX2, parsedY2);
+                        smallAppForm.Location = new System.Drawing.Point(formlokasyon2.X,formlokasyon2.Y);
+
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Invalid coordinate format.");
+                    }
+
+
+
                     labelStatus.Text = "Hazır.";
                     oltasayacitextbox = Convert.ToInt32(textBoxOltaMaxSuresi.Text);
                     pauseinttextbox = Convert.ToInt32(textBoxOltaAraSuresi.Text);
+
+                 
+
                 }
             }
             catch (Exception)
             {
             }
+            smallAppForm = new SmallApp();
+            smallAppForm.MainFormReference = this; // Pass reference to SmallApp
+
+            // Show the main form
+            this.Show();
+            smallAppForm.LabelText = labelStatus.Text;
+
+            // Set button click event
+            smallAppForm.StartButonu(ButtonSmallStart_Click);
+            smallAppForm.StopButonu(ButtonSmallStop_Click);
+            smallAppForm.CloseButonu(ButtonSmallClose_Click);
+            //smallAppForm.Show();
         }
         private static bool TryParseRectangle(string input, out int x, out int y,
                                               out int width, out int height)
@@ -572,22 +663,50 @@ namespace CaptainHook
         }
         void stopbuttonu()
         {
-            // durdurma butonu fonks.
-            progressBar1.Value = 0;
 
-            labelStatus.Text = "Durduruldu.";
-            calismadurumu = false;
-            timerFishBar.Enabled = false;
-            timerReeling.Enabled = false;
-            timerPause.Enabled = false;
-            oltada = false;
-            oltasayaci = 0;
-            labelOltadakiSure.Text = oltasayaci.ToString();
-            pauseint = 0;
-            labelPause.Text = pauseint.ToString();
-            pathfinderlisayac = 0;
+            if (Pathfinder.CheckState == CheckState.Checked)
+            {
+                // durdurma butonu fonks.
+                progressBar1.Value = 0;
+
+                labelStatus.Text = "Durduruldu.";
+                calismadurumu = false;
+                timerFishBar.Enabled = false;
+                timerReeling.Enabled = false;
+                timerPause.Enabled = false;
+                oltada = false;
+                oltasayaci = 0;
+                labelOltadakiSure.Text = oltasayaci.ToString();
+                pauseint = 0;
+                labelPause.Text = pauseint.ToString();
+                pathfinderlisayac = 0;
+                //timerWalk.Stop();
+                
+
+            }
+            else
+            {
+                // durdurma butonu fonks.
+                progressBar1.Value = 0;
+
+                labelStatus.Text = "Durduruldu.";
+                calismadurumu = false;
+                timerFishBar.Enabled = false;
+                timerReeling.Enabled = false;
+                timerPause.Enabled = false;
+                oltada = false;
+                oltasayaci = 0;
+                labelOltadakiSure.Text = oltasayaci.ToString();
+                pauseint = 0;
+                labelPause.Text = pauseint.ToString();
+                pathfinderlisayac = 0;
+                //timerWalk.Stop();
+            }
+
+
         }
-        private void button1_Click(object sender, EventArgs e) { stopbuttonu(); }
+        private void button1_Click(object sender, EventArgs e) { stopbuttonu(); isPaused = true;
+        }
         int oltasayaci = 0;
         int oltasayacitextbox;
         private void timerSoundcheck_Tick(object sender, EventArgs e)
@@ -681,6 +800,46 @@ namespace CaptainHook
                 // timerFishBar.Start();
             }
         }
+        // Define the RGB values for the green color you want to search for
+        int targetGreenR = 63; // Adjust these values as needed
+        int targetGreenG = 117;
+        int targetGreenB = 39;
+
+        // Define a threshold for the color comparison
+        int colorThreshold = 50; // Adjust this threshold as needed
+
+        private bool IsGreenColor(Color pixelColor)
+        {
+            // Calculate the difference between the target green color and the pixel's color
+            int colorDifference = Math.Abs(pixelColor.R - targetGreenR) +
+                                  Math.Abs(pixelColor.G - targetGreenG) +
+                                  Math.Abs(pixelColor.B - targetGreenB);
+
+            // If the color difference is within the threshold, consider it a green color
+            return colorDifference < colorThreshold;
+        }
+        private int CountGreenPixels1(Bitmap bitmap)
+        {
+            int greenPixelCount = 0;
+
+            // Iterate through each pixel in the bitmap
+            for (int x = 0; x < bitmap.Width; x++)
+            {
+                for (int y = 0; y < bitmap.Height; y++)
+                {
+                    // Get the color of the current pixel
+                    Color pixelColor = bitmap.GetPixel(x, y);
+
+                    // Check if the color is green
+                    if (IsGreenColor(pixelColor))
+                    {
+                        greenPixelCount++;
+                    }
+                }
+            }
+
+            return greenPixelCount;
+        }
         private void timerFishBar_Tick(object sender, EventArgs e)
         {
             // seçili koordinatlara göre balık çekim ekranındaki gerginlik barını
@@ -691,12 +850,14 @@ namespace CaptainHook
             {
                 Bitmap areaBitmap = new Bitmap(pictureBox1.Image);
 
-                int greenPixelCount = CountGreenPixels(areaBitmap);
+                int greenPixelCount = CountGreenPixels1(areaBitmap);
 
                 double greenThresholdPercentage = 40.0;
 
-                double percentageGreen = (double)greenPixelCount /
-                                         (areaBitmap.Width * areaBitmap.Height) * 100.0;
+                //double percentageGreen = (double)greenPixelCount /
+                //                         (areaBitmap.Width * areaBitmap.Height) * 100.0;
+                double percentageGreen = (double)greenPixelCount / (areaBitmap.Width * areaBitmap.Height) * 100.0;
+
                 // bot çalışıyorsa
                 if (calismadurumu == true)
                 {
@@ -811,6 +972,9 @@ namespace CaptainHook
                     // OLTA ARA TEXTBOX KAYDI
                     streamWriter.WriteLine(textBoxOltaAraSuresi.Text);
 
+                    // Form2 LOKASYON KAYDI 
+                    streamWriter.WriteLine(smallAppForm.Location);
+
                     streamWriter.Close();
                 }
             }
@@ -838,7 +1002,6 @@ namespace CaptainHook
                     if (pathfinderlisayac >= Convert.ToInt32(comboBoxBalikSayisi.Text))
                     {
                         stopbuttonu();
-                        isPaused = false;
                         pathfinderlisayac = 0;
                     }
                     else
@@ -879,10 +1042,14 @@ namespace CaptainHook
                                 toplamoltasayisi++;
                                 labelToplamOlta.Text = toplamoltasayisi.ToString();
                                 timerFishBar.Start();
+                                //isPaused = false;
+
                             }
                         }
                         else
                         {
+                            isPaused = false;
+
                             StartMovingAlongRoute();
 
                         }
@@ -969,8 +1136,13 @@ namespace CaptainHook
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-            // kapat butonu fonks.
-            this.Close();
+            // Hide the main form
+            this.Hide();
+
+            // Show the SmallApp form
+            //smallAppForm SmallApp();
+            smallAppForm.Show();
+            smallAppForm.Location = new System.Drawing.Point(formlokasyon2.X, formlokasyon2.Y);
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
@@ -1037,7 +1209,7 @@ namespace CaptainHook
                 {
                     if (pathfinderlisayac == Convert.ToInt32(comboBoxBalikSayisi.Text))
                     {
-                        isPaused = false;
+                        //isPaused = true;
                         pathfinderlisayac = 0;
                         //label12.Text = pathfinderlisayac.ToString();
 
@@ -1466,7 +1638,10 @@ namespace CaptainHook
 
         private void labelStatus_TextChanged(object sender, EventArgs e)
         {
+            //smallAppForm = new SmallApp();
             listBox1.Items.Add(DateTime.Now.ToString("HH:mm:ss") + " " + labelStatus.Text);
+            //smallAppForm.labelSmallStatus.Text = labelStatus.Text;
+            //smallAppForm.LabelText = labelStatus.Text;
         }
 
         private void labelStatus_Click(object sender, EventArgs e)
