@@ -12,7 +12,9 @@ using OpenCvSharp.Extensions;
 using System;
 using System.IO;
 using System.Collections;
-
+using Squirrel;
+using System.Threading.Tasks;
+using System.Drawing.Text;
 namespace CaptainHook
 {
     public partial class Form1 : Form
@@ -154,7 +156,7 @@ namespace CaptainHook
         }
         private void ButtonSmallLocation_Click(object sender, EventArgs e)
         {
-           getnewlocation();
+            getnewlocation();
         }
         //SmallApp smallAppForm = new SmallApp();
 
@@ -168,9 +170,9 @@ namespace CaptainHook
         private void Form1_Load(object sender, EventArgs e)
         {
 
-        listBox1.BackColor = Color.FromArgb(210, 180, 140);
+            listBox1.BackColor = Color.FromArgb(210, 180, 140);
             // Set label text
-           
+
             this.TransparencyKey =
                 Color.Magenta;  // You can choose a color that is not in your image
 
@@ -178,7 +180,7 @@ namespace CaptainHook
             // okunması ve güncellenmesi.
             labelDate.Text = DateTime.Now.ToString("dddd, dd MMMM yyyy");
             this.TopMost = true;
-           
+
 
             try
             {
@@ -323,7 +325,7 @@ namespace CaptainHook
                         Debug.WriteLine($"Parsed X: {parsedX2}, Parsed Y: {parsedY2}");
 
                         formlokasyon2 = new Point(parsedX2, parsedY2);
-                        smallAppForm.Location = new System.Drawing.Point(formlokasyon2.X,formlokasyon2.Y);
+                        smallAppForm.Location = new System.Drawing.Point(formlokasyon2.X, formlokasyon2.Y);
 
                     }
                     else
@@ -331,13 +333,13 @@ namespace CaptainHook
                         Debug.WriteLine("Invalid coordinate format.");
                     }
 
-
+                    //CheckForUpdates();
 
                     labelStatus.Text = "Hazır.";
                     oltasayacitextbox = Convert.ToInt32(textBoxOltaMaxSuresi.Text);
                     pauseinttextbox = Convert.ToInt32(textBoxOltaAraSuresi.Text);
 
-                 
+
 
                 }
             }
@@ -356,6 +358,36 @@ namespace CaptainHook
             smallAppForm.StopButonu(ButtonSmallStop_Click);
             smallAppForm.CloseButonu(ButtonSmallClose_Click);
             //smallAppForm.Show();
+           
+            AddVersionNumber();
+        }
+        private void AddVersionNumber()
+        {
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            FileVersionInfo versioninfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+
+            labelVersion.Text = versioninfo.FileVersion;
+        }
+        private async Task CheckForUpdates()
+        {
+            try
+            {
+                using (var mgr = await UpdateManager.GitHubUpdateManager("https://github.com/ucandutch/CaptainHook"))
+                {
+                    labelStatus.Text = "Güncelleme varsa arka planda yükleyecektir. Eğer varsa güncel halini kullanmak için uygulamayı yeniden başlatın.";
+
+                    ReleaseEntry releaseEntry = await mgr.UpdateApp();
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message + Environment.NewLine;
+                if (ex.InnerException != null)
+                    message += ex.InnerException.Message;
+                 Debug.WriteLine(message);
+            }
+
+
         }
         private static bool TryParseRectangle(string input, out int x, out int y,
                                               out int width, out int height)
@@ -681,7 +713,7 @@ namespace CaptainHook
                 labelPause.Text = pauseint.ToString();
                 pathfinderlisayac = 0;
                 //timerWalk.Stop();
-                
+
 
             }
             else
@@ -705,7 +737,9 @@ namespace CaptainHook
 
 
         }
-        private void button1_Click(object sender, EventArgs e) { stopbuttonu(); isPaused = true;
+        private void button1_Click(object sender, EventArgs e)
+        {
+            stopbuttonu(); isPaused = true;
         }
         int oltasayaci = 0;
         int oltasayacitextbox;
@@ -901,7 +935,7 @@ namespace CaptainHook
                 if (calismadurumu == true && oltada == true &&
                     percentageGreen <= greenThresholdPercentage)
                 {
-                    
+
                     timerPause.Enabled = false;
                 }
             }
@@ -1060,7 +1094,7 @@ namespace CaptainHook
                 {
                     labelStatus.Text = "Lütfen Pathfinder ayarlarında Her noktada kaç balık tutulacağını seçiniz.";
                 }
-                
+
 
             }
             else
@@ -1871,6 +1905,11 @@ namespace CaptainHook
             {
                 textBoxLogSearch.Text = "";
             }
+        }
+
+        private void pictureBox6_Click(object sender, EventArgs e)
+        {
+            CheckForUpdates();
         }
     }
 

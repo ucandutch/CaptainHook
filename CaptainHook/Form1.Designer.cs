@@ -126,6 +126,8 @@
             pictureBoxMain = new PictureBox();
             timerCurrentTime = new System.Windows.Forms.Timer(components);
             progressBar1 = new ProgressBar();
+            labelVersion = new Label();
+            pictureBox6 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -140,12 +142,13 @@
             groupBoxLog.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxLog).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxMain).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             SuspendLayout();
             // 
             // pictureBox1
             // 
             pictureBox1.BackColor = Color.Gainsboro;
-            pictureBox1.Location = new Point(22, 86);
+            pictureBox1.Location = new Point(832, 101);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(312, 23);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -183,7 +186,7 @@
             // 
             labelFish.AutoSize = true;
             labelFish.BackColor = Color.Transparent;
-            labelFish.Location = new Point(190, 68);
+            labelFish.Location = new Point(1000, 83);
             labelFish.Name = "labelFish";
             labelFish.Size = new Size(65, 15);
             labelFish.TabIndex = 3;
@@ -252,7 +255,7 @@
             // 
             label2.AutoSize = true;
             label2.BackColor = Color.Transparent;
-            label2.Location = new Point(86, 68);
+            label2.Location = new Point(896, 83);
             label2.Name = "label2";
             label2.Size = new Size(65, 15);
             label2.TabIndex = 10;
@@ -594,9 +597,9 @@
             Pathfinder.ForeColor = Color.MediumBlue;
             Pathfinder.Location = new Point(39, 321);
             Pathfinder.Name = "Pathfinder";
-            Pathfinder.Size = new Size(81, 19);
+            Pathfinder.Size = new Size(86, 19);
             Pathfinder.TabIndex = 26;
-            Pathfinder.Text = "Pathfinder";
+            Pathfinder.Text = "*Pathfinder";
             Pathfinder.UseVisualStyleBackColor = false;
             Pathfinder.CheckedChanged += Pathfinder_CheckedChanged;
             // 
@@ -698,11 +701,11 @@
             label8.BackColor = Color.Transparent;
             label8.Font = new Font("Segoe UI", 6F, FontStyle.Regular, GraphicsUnit.Point);
             label8.ForeColor = SystemColors.Control;
-            label8.Location = new Point(346, 553);
+            label8.Location = new Point(346, 541);
             label8.Name = "label8";
-            label8.Size = new Size(10, 140);
+            label8.Size = new Size(10, 89);
             label8.TabIndex = 25;
-            label8.Text = "Vers ion   2027";
+            label8.Text = "Vers ion";
             label8.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // timerPause
@@ -754,25 +757,25 @@
             // 
             menuStrip1.BackColor = Color.Transparent;
             menuStrip1.Dock = DockStyle.None;
-            menuStrip1.Font = new Font("HoloLens MDL2 Assets", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            menuStrip1.Font = new Font("HoloLens MDL2 Assets", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
             menuStrip1.Items.AddRange(new ToolStripItem[] { pathFinderToolStripMenuItem, sesAyarlarıToolStripMenuItem });
-            menuStrip1.Location = new Point(48, 41);
+            menuStrip1.Location = new Point(34, 41);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(215, 24);
+            menuStrip1.Size = new Size(257, 29);
             menuStrip1.TabIndex = 27;
             menuStrip1.Text = "menuStrip1";
             // 
             // pathFinderToolStripMenuItem
             // 
             pathFinderToolStripMenuItem.Name = "pathFinderToolStripMenuItem";
-            pathFinderToolStripMenuItem.Size = new Size(123, 20);
+            pathFinderToolStripMenuItem.Size = new Size(147, 25);
             pathFinderToolStripMenuItem.Text = "PathFinder Ayarları";
             pathFinderToolStripMenuItem.Click += pathFinderToolStripMenuItem_Click;
             // 
             // sesAyarlarıToolStripMenuItem
             // 
             sesAyarlarıToolStripMenuItem.Name = "sesAyarlarıToolStripMenuItem";
-            sesAyarlarıToolStripMenuItem.Size = new Size(84, 20);
+            sesAyarlarıToolStripMenuItem.Size = new Size(102, 25);
             sesAyarlarıToolStripMenuItem.Text = "Ses Ayarları";
             sesAyarlarıToolStripMenuItem.Click += sesAyarlarıToolStripMenuItem_Click;
             // 
@@ -1209,13 +1212,41 @@
             progressBar1.Style = ProgressBarStyle.Continuous;
             progressBar1.TabIndex = 31;
             // 
+            // labelVersion
+            // 
+            labelVersion.BackColor = Color.Transparent;
+            labelVersion.Font = new Font("Segoe UI", 6F, FontStyle.Regular, GraphicsUnit.Point);
+            labelVersion.ForeColor = Color.Yellow;
+            labelVersion.Location = new Point(347, 612);
+            labelVersion.Name = "labelVersion";
+            labelVersion.Size = new Size(10, 88);
+            labelVersion.TabIndex = 33;
+            labelVersion.Text = "2.0.2";
+            labelVersion.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // pictureBox6
+            // 
+            pictureBox6.BackColor = Color.Transparent;
+            pictureBox6.BackgroundImage = Properties.Resources.updated;
+            pictureBox6.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox6.Cursor = Cursors.Hand;
+            pictureBox6.Location = new Point(315, 61);
+            pictureBox6.Name = "pictureBox6";
+            pictureBox6.Size = new Size(32, 32);
+            pictureBox6.TabIndex = 34;
+            pictureBox6.TabStop = false;
+            pictureBox6.Click += pictureBox6_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Magenta;
             BackgroundImage = Properties.Resources.result__1_2;
-            ClientSize = new Size(399, 700);
+            ClientSize = new Size(404, 700);
+            Controls.Add(pictureBox6);
+            Controls.Add(label8);
+            Controls.Add(labelVersion);
             Controls.Add(panelAnasayfa);
             Controls.Add(progressBar1);
             Controls.Add(pictureBoxMain);
@@ -1228,7 +1259,6 @@
             Controls.Add(checkBox1);
             Controls.Add(button1);
             Controls.Add(pictureBoxSettings);
-            Controls.Add(label8);
             Controls.Add(groupBoxSettings);
             Controls.Add(groupBoxLog);
             Controls.Add(pictureBox1);
@@ -1265,6 +1295,7 @@
             groupBoxLog.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxLog).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxMain).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1367,5 +1398,7 @@
         private Label label38;
         private PictureBox pictureBox5;
         private Label labelStatus;
+        private Label labelVersion;
+        private PictureBox pictureBox6;
     }
 }
