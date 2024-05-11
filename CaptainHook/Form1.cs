@@ -15,6 +15,7 @@ using System.Collections;
 using Squirrel;
 using System.Threading.Tasks;
 using System.Drawing.Text;
+using System.Net;
 namespace CaptainHook
 {
     public partial class Form1 : Form
@@ -151,6 +152,7 @@ namespace CaptainHook
 
                     labelCoordinate.Text =
                         $"{savedCoordinate.X}, {savedCoordinate.Y}";
+
                 }
             }
         }
@@ -174,7 +176,7 @@ namespace CaptainHook
             // Set label text
 
             this.TransparencyKey =
-                Color.Magenta;  // You can choose a color that is not in your image
+                Color.Gray;  // You can choose a color that is not in your image
 
             // Form yüklenirken yapılması gerekenler aka tarih saat, kayıtlı ayarların
             // okunması ve güncellenmesi.
@@ -332,7 +334,13 @@ namespace CaptainHook
                     {
                         Debug.WriteLine("Invalid coordinate format.");
                     }
-
+                    // Fishbait ayar okuma 
+                    data = streamReader.ReadLine();
+                    if (data == "True")
+                    {
+                        fishbait = true;
+                        pictureBoxFishBait.BackColor = Color.Green;
+                    }
                     //CheckForUpdates();
 
                     labelStatus.Text = "Hazır.";
@@ -358,9 +366,75 @@ namespace CaptainHook
             smallAppForm.StopButonu(ButtonSmallStop_Click);
             smallAppForm.CloseButonu(ButtonSmallClose_Click);
             //smallAppForm.Show();
-           
+            CheckVersion();
             AddVersionNumber();
         }
+        static string GetLatestVersion()
+        {
+            string url = "https://raw.githubusercontent.com/ucandutch/CaptainHook/master/version.txt";
+
+            try
+            {
+                using (WebClient client = new WebClient())
+                {
+                    string version = client.DownloadString(url).Trim();
+                    return version;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred while fetching version information: " + ex.Message);
+                return null;
+            }
+        }
+
+        private void CheckVersion()
+        {
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            FileVersionInfo versioninfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+            string localVersion = versioninfo.FileVersion; // Your app's current version
+            string latestVersion = GetLatestVersion();
+            try
+            {
+                if (latestVersion != null)
+                {
+                    if (localVersion == latestVersion)
+                    {
+                        Debug.WriteLine("Your app is up to date.");
+                        Debug.WriteLine(localVersion);
+                        //labelStatus.Text = "Uygulama ";
+                        pictureBoxUpToDate.Visible = true;
+                        pictureBoxUpdate.Visible = false;
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Your app is not up to date. The latest version is: " + latestVersion);
+                        Debug.WriteLine(localVersion);
+                        pictureBoxUpToDate.Visible = false;
+                        pictureBoxUpdate.Visible = true;
+                        labelStatus.Text = "Yeni bir güncelleme mevcut. Yüklemek için Uygulamanın en üstünde bulunan güncelleme butonuna basın. Sürüm :" + localVersion + " - Yeni sürüm :" + latestVersion;
+                    }
+                }
+                else
+                {
+                    pictureBoxUpToDate.Visible = false;
+                    pictureBoxUpdate.Visible = false;
+                    labelStatus.Text = "Uygulama güncelliği kontrol edilirken bir hata oluştu. İnternet bağlantınızı kontrol edip uygulamayı tekrar açmanız tavsiye edilir.";
+                }
+            }
+            catch (Exception)
+            {
+                pictureBoxUpToDate.Visible = false;
+                pictureBoxUpdate.Visible = false;
+                labelStatus.Text = "Uygulama güncelliği kontrol edilirken bir hata oluştu. İnternet bağlantınızı kontrol edip uygulamayı tekrar açmanız tavsiye edilir.";
+
+
+            }
+
+        }
+
+
         private void AddVersionNumber()
         {
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
@@ -384,7 +458,7 @@ namespace CaptainHook
                 string message = ex.Message + Environment.NewLine;
                 if (ex.InnerException != null)
                     message += ex.InnerException.Message;
-                 Debug.WriteLine(message);
+                Debug.WriteLine(message);
             }
 
 
@@ -819,7 +893,7 @@ namespace CaptainHook
                 InputSimulator simulator = new InputSimulator();
                 simulator.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.VK_S);
                 timerPause.Enabled = true;
-                ;
+
                 // timerFishBar.Start();
                 //}
             }
@@ -1008,7 +1082,8 @@ namespace CaptainHook
 
                     // Form2 LOKASYON KAYDI 
                     streamWriter.WriteLine(smallAppForm.Location);
-
+                    // FishBait Ayar kaydı
+                    streamWriter.WriteLine(fishbait.ToString());
                     streamWriter.Close();
                 }
             }
@@ -1025,6 +1100,7 @@ namespace CaptainHook
             }
         }
         int pathfinderlisayac = 0;
+        int tuketilenfishbait;
         void baslatbutonu()
         {
             // baslat butonu fonks.
@@ -1043,9 +1119,16 @@ namespace CaptainHook
                         labelStatus.Text = "Başlatılıyor...";
                         //calismadurumu = true;
                         InputSimulator simulator = new InputSimulator();
-
-                        simulator.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.VK_S);
                         Random random = new Random();
+
+                        if (fishbait == true && toplamoltasayisi % 10 == 0)
+                        {
+                            tuketilenbait++;
+                            labelFishBait.Text = tuketilenbait.ToString();
+                            simulator.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.VK_1);
+                            int randomNumber2 = random.Next(100, 401);
+                        }
+                        simulator.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.VK_S);
                         int randomNumber = random.Next(300, 701);
                         if (comboBoxNoktalar.Text == comboBoxFishStop.Text && comboBoxNoktalar.Text != "")
                         {
@@ -1103,9 +1186,16 @@ namespace CaptainHook
                 calismadurumu = true;
                 labelStatus.Text = "Olta atılıyor.";
                 InputSimulator simulator = new InputSimulator();
-
-                simulator.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.VK_S);
                 Random random = new Random();
+                if (fishbait == true && toplamoltasayisi % 10 == 0)
+                {
+                    tuketilenbait++;
+                    labelFishBait.Text = tuketilenbait.ToString();
+                    simulator.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.VK_1);
+                    int randomNumber2 = random.Next(100, 301);
+                }
+                simulator.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.VK_S);
+
                 int randomNumber = random.Next(300, 701);
                 Thread.Sleep(2000);
                 SetCursorPos(savedCoordinate.X, savedCoordinate.Y);
@@ -1253,6 +1343,15 @@ namespace CaptainHook
                     {
                         Thread.Sleep(2000);
                         pathfinderlisayac++;
+                        Random random = new Random();
+                        if (fishbait == true && toplamoltasayisi % 10 == 0)
+                        {
+                            tuketilenbait++;
+                            labelFishBait.Text = tuketilenbait.ToString();
+                            InputSimulator simulator = new InputSimulator();
+                            simulator.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.VK_1);
+                            int randomNumber2 = random.Next(100, 301);
+                        }
                         //label12.Text = pathfinderlisayac.ToString();
                         string[] coordinates = comboBoxBalikNoktalari.SelectedItem.ToString()
                                                    .Trim('(', ')')
@@ -1267,7 +1366,7 @@ namespace CaptainHook
                         {
                             labelStatus.Text =
                                 (comboBoxBalikNoktalari.Text + " noktasına olta atılıyor");
-                            Random random = new Random();
+
                             int randomNumber = random.Next(300, 901);
                             SetCursorPos(x, y);
                             mouse_event(MOUSEEVENTF_LEFTDOWN, x, y, 0, 0);
@@ -1285,8 +1384,18 @@ namespace CaptainHook
                 }
                 else
                 {
-                    SetCursorPos(savedCoordinate.X, savedCoordinate.Y);
                     Random random = new Random();
+                    if (fishbait == true && toplamoltasayisi % 10 == 0)
+                    {
+                        tuketilenbait++;
+                        labelFishBait.Text = tuketilenbait.ToString();
+                        InputSimulator simulator = new InputSimulator();
+                        simulator.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.VK_1);
+                        int randomNumber2 = random.Next(100, 301);
+                    }
+
+                    SetCursorPos(savedCoordinate.X, savedCoordinate.Y);
+
                     int randomNumber = random.Next(300, 901);
                     mouse_event(MOUSEEVENTF_LEFTDOWN, savedCoordinate.X, savedCoordinate.Y,
                                 0, 0);
@@ -1294,6 +1403,8 @@ namespace CaptainHook
                     mouse_event(MOUSEEVENTF_LEFTUP, savedCoordinate.X, savedCoordinate.Y, 0,
                                 0);
                     oltada = true;
+                    toplamoltasayisi++;
+                    labelToplamOlta.Text = toplamoltasayisi.ToString();
                     // oltada = true;
                     pauseint = 0;
                 }
@@ -1644,6 +1755,9 @@ namespace CaptainHook
 
         private void pictureBox8_Click(object sender, EventArgs e)
         {
+            pictureBoxMain.SendToBack();
+            pictureBoxLog.SendToBack();
+            pictureBoxSettings.BringToFront();
 
             groupBoxSettings.Visible = true;
             groupBoxLog.Visible = false;
@@ -1654,7 +1768,9 @@ namespace CaptainHook
 
         private void pictureBox9_Click(object sender, EventArgs e)
         {
-
+            pictureBoxMain.SendToBack();
+            pictureBoxLog.BringToFront();
+            pictureBoxSettings.SendToBack();
             groupBoxLog.Visible = true;
             groupBoxSettings.Visible = false;
             panelAnasayfa.Visible = false;
@@ -1664,6 +1780,9 @@ namespace CaptainHook
 
         private void pictureBoxMain_Click(object sender, EventArgs e)
         {
+            pictureBoxMain.BringToFront();
+            pictureBoxLog.SendToBack();
+            pictureBoxSettings.SendToBack();
             groupBoxSettings.Visible = false;
             groupBoxLog.Visible = false;
             panelAnasayfa.Visible = true;
@@ -1674,6 +1793,7 @@ namespace CaptainHook
         {
             //smallAppForm = new SmallApp();
             listBox1.Items.Add(DateTime.Now.ToString("HH:mm:ss") + " " + labelStatus.Text);
+           
             //smallAppForm.labelSmallStatus.Text = labelStatus.Text;
             //smallAppForm.LabelText = labelStatus.Text;
         }
@@ -1909,7 +2029,60 @@ namespace CaptainHook
 
         private void pictureBox6_Click(object sender, EventArgs e)
         {
+
+            labelStatus.Text = "Uygulamanın son sürümünü kullanıyorsunuz!";
+        }
+
+        private void pictureBoxUpdate_Click(object sender, EventArgs e)
+        {
             CheckForUpdates();
+        }
+        bool fishbait;
+        private void buttonFishingBait_Click(object sender, EventArgs e)
+        {
+            if (pictureBoxFishBait.BackColor == Color.DimGray)
+            {
+                pictureBoxFishBait.BackColor = Color.Green;
+                fishbait = true;
+                labelStatus.Text = "Otomatik Fish Bait tüketimi devrede. 10 Oltada bir bait tüketilecektir.";
+            }
+            else
+            {
+                fishbait = false;
+
+                pictureBoxFishBait.BackColor = Color.DimGray;
+                labelStatus.Text = "Fish Bait tüketimi devre dışı bırakıldı.";
+
+            }
+        }
+
+        private void labelFishBait_TextChanged(object sender, EventArgs e)
+        {
+            smallAppForm.LabelTextFishBait = labelFishBait.Text;
+        }
+
+        private void labelToplamOlta_TextChanged(object sender, EventArgs e)
+        {
+            smallAppForm.LabelTextToplamOlta = labelToplamOlta.Text;
+
+        }
+
+        private void labelCoordinate_TextChanged(object sender, EventArgs e)
+        {
+            smallAppForm.LabelTextCoordinate = labelCoordinate.Text;
+
+        }
+
+        private void labelOltadakiSure_TextChanged(object sender, EventArgs e)
+        {
+            smallAppForm.LabelTextOltadakiSure = labelOltadakiSure.Text;
+
+        }
+
+        private void labelPause_TextChanged(object sender, EventArgs e)
+        {
+            smallAppForm.LabelTextPause = labelPause.Text;
+
         }
     }
 

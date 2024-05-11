@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             pictureBox1 = new PictureBox();
             timerFishBar = new System.Windows.Forms.Timer(components);
             labelStatus = new Label();
@@ -54,6 +55,8 @@
             label3 = new Label();
             pictureBox3 = new PictureBox();
             panelAnasayfa = new Panel();
+            labelFishBait = new Label();
+            label6 = new Label();
             checkBoxZamanlayici = new CheckBox();
             textBoxZamanlayiciMN = new TextBox();
             textBoxOltaMaxSuresi = new TextBox();
@@ -78,6 +81,7 @@
             label18 = new Label();
             labelPause = new Label();
             label31 = new Label();
+            pictureBoxFishBait = new PictureBox();
             labelDate = new Label();
             label8 = new Label();
             timerPause = new System.Windows.Forms.Timer(components);
@@ -127,11 +131,13 @@
             timerCurrentTime = new System.Windows.Forms.Timer(components);
             progressBar1 = new ProgressBar();
             labelVersion = new Label();
-            pictureBox6 = new PictureBox();
+            pictureBoxUpToDate = new PictureBox();
+            pictureBoxUpdate = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             panelAnasayfa.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxFishBait).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxSettings).BeginInit();
             groupBoxSettings.SuspendLayout();
             menuStrip1.SuspendLayout();
@@ -142,7 +148,8 @@
             groupBoxLog.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxLog).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxMain).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxUpToDate).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxUpdate).BeginInit();
             SuspendLayout();
             // 
             // pictureBox1
@@ -238,6 +245,7 @@
             labelCoordinate.Size = new Size(22, 15);
             labelCoordinate.TabIndex = 7;
             labelCoordinate.Text = "0,0";
+            labelCoordinate.TextChanged += labelCoordinate_TextChanged;
             labelCoordinate.Click += labelCoordinate_Click;
             // 
             // button1
@@ -283,6 +291,7 @@
             labelOltadakiSure.Size = new Size(13, 15);
             labelOltadakiSure.TabIndex = 12;
             labelOltadakiSure.Text = "0";
+            labelOltadakiSure.TextChanged += labelOltadakiSure_TextChanged;
             // 
             // timerAudio
             // 
@@ -351,9 +360,10 @@
             // 
             pictureBox2.BackColor = Color.Transparent;
             pictureBox2.Cursor = Cursors.Hand;
-            pictureBox2.Location = new Point(323, 22);
+            pictureBox2.Image = Properties.Resources.smallerbutton;
+            pictureBox2.Location = new Point(316, 0);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(23, 18);
+            pictureBox2.Size = new Size(41, 49);
             pictureBox2.TabIndex = 19;
             pictureBox2.TabStop = false;
             pictureBox2.Click += pictureBox2_Click;
@@ -396,6 +406,8 @@
             // panelAnasayfa
             // 
             panelAnasayfa.BackColor = Color.Transparent;
+            panelAnasayfa.Controls.Add(labelFishBait);
+            panelAnasayfa.Controls.Add(label6);
             panelAnasayfa.Controls.Add(checkBoxZamanlayici);
             panelAnasayfa.Controls.Add(textBoxZamanlayiciMN);
             panelAnasayfa.Controls.Add(textBoxOltaMaxSuresi);
@@ -427,6 +439,7 @@
             panelAnasayfa.Controls.Add(labelCoordinate);
             panelAnasayfa.Controls.Add(label5);
             panelAnasayfa.Controls.Add(labelOltadakiSure);
+            panelAnasayfa.Controls.Add(pictureBoxFishBait);
             panelAnasayfa.Location = new Point(15, 133);
             panelAnasayfa.Name = "panelAnasayfa";
             panelAnasayfa.Size = new Size(331, 450);
@@ -434,6 +447,25 @@
             panelAnasayfa.MouseDown += panelAnasayfa_MouseDown;
             panelAnasayfa.MouseMove += panelAnasayfa_MouseMove;
             panelAnasayfa.MouseUp += panelAnasayfa_MouseUp;
+            // 
+            // labelFishBait
+            // 
+            labelFishBait.AutoSize = true;
+            labelFishBait.Location = new Point(283, 160);
+            labelFishBait.Name = "labelFishBait";
+            labelFishBait.Size = new Size(13, 15);
+            labelFishBait.TabIndex = 40;
+            labelFishBait.Text = "0";
+            labelFishBait.TextChanged += labelFishBait_TextChanged;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(172, 145);
+            label6.Name = "label6";
+            label6.Size = new Size(108, 15);
+            label6.TabIndex = 39;
+            label6.Text = "Tüketilen Fish Bait :";
             // 
             // checkBoxZamanlayici
             // 
@@ -576,6 +608,7 @@
             buttonFishingBait.Size = new Size(73, 69);
             buttonFishingBait.TabIndex = 32;
             buttonFishingBait.UseVisualStyleBackColor = true;
+            buttonFishingBait.Click += buttonFishingBait_Click;
             // 
             // buttonSeaweedSalad
             // 
@@ -656,6 +689,7 @@
             labelToplamOlta.Size = new Size(13, 15);
             labelToplamOlta.TabIndex = 27;
             labelToplamOlta.Text = "0";
+            labelToplamOlta.TextChanged += labelToplamOlta_TextChanged;
             // 
             // label18
             // 
@@ -674,6 +708,7 @@
             labelPause.Size = new Size(13, 15);
             labelPause.TabIndex = 24;
             labelPause.Text = "0";
+            labelPause.TextChanged += labelPause_TextChanged;
             // 
             // label31
             // 
@@ -684,6 +719,15 @@
             label31.Size = new Size(87, 15);
             label31.TabIndex = 20;
             label31.Text = "Olta Ara Süresi:";
+            // 
+            // pictureBoxFishBait
+            // 
+            pictureBoxFishBait.BackColor = Color.DimGray;
+            pictureBoxFishBait.Location = new Point(190, 28);
+            pictureBoxFishBait.Name = "pictureBoxFishBait";
+            pictureBoxFishBait.Size = new Size(79, 75);
+            pictureBoxFishBait.TabIndex = 38;
+            pictureBoxFishBait.TabStop = false;
             // 
             // labelDate
             // 
@@ -701,7 +745,7 @@
             label8.BackColor = Color.Transparent;
             label8.Font = new Font("Segoe UI", 6F, FontStyle.Regular, GraphicsUnit.Point);
             label8.ForeColor = SystemColors.Control;
-            label8.Location = new Point(346, 541);
+            label8.Location = new Point(346, 511);
             label8.Name = "label8";
             label8.Size = new Size(10, 89);
             label8.TabIndex = 25;
@@ -732,10 +776,11 @@
             // 
             pictureBoxSettings.BackColor = Color.Transparent;
             pictureBoxSettings.Cursor = Cursors.Hand;
-            pictureBoxSettings.Image = Properties.Resources.settingsbutton1;
-            pictureBoxSettings.Location = new Point(336, 198);
+            pictureBoxSettings.Image = Properties.Resources.settingsbutton21;
+            pictureBoxSettings.Location = new Point(333, 202);
             pictureBoxSettings.Name = "pictureBoxSettings";
-            pictureBoxSettings.Size = new Size(61, 53);
+            pictureBoxSettings.Size = new Size(52, 63);
+            pictureBoxSettings.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBoxSettings.TabIndex = 26;
             pictureBoxSettings.TabStop = false;
             pictureBoxSettings.Click += pictureBox8_Click;
@@ -1165,9 +1210,9 @@
             listBox1.FormattingEnabled = true;
             listBox1.HorizontalScrollbar = true;
             listBox1.ItemHeight = 15;
-            listBox1.Location = new Point(0, 51);
+            listBox1.Location = new Point(16, 51);
             listBox1.Name = "listBox1";
-            listBox1.Size = new Size(331, 394);
+            listBox1.Size = new Size(296, 394);
             listBox1.TabIndex = 0;
             listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged;
             listBox1.ControlAdded += listBox1_ControlAdded;
@@ -1176,8 +1221,8 @@
             // 
             pictureBoxLog.BackColor = Color.Transparent;
             pictureBoxLog.Cursor = Cursors.Hand;
-            pictureBoxLog.Image = Properties.Resources.Menu_Button_removebg_preview;
-            pictureBoxLog.Location = new Point(343, 259);
+            pictureBoxLog.Image = Properties.Resources.logsbutton;
+            pictureBoxLog.Location = new Point(333, 269);
             pictureBoxLog.Name = "pictureBoxLog";
             pictureBoxLog.Size = new Size(52, 63);
             pictureBoxLog.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -1189,8 +1234,8 @@
             // 
             pictureBoxMain.BackColor = Color.Transparent;
             pictureBoxMain.Cursor = Cursors.Hand;
-            pictureBoxMain.Image = Properties.Resources.Menu_Button_removebg_preview;
-            pictureBoxMain.Location = new Point(346, 134);
+            pictureBoxMain.Image = Properties.Resources.homebutton;
+            pictureBoxMain.Location = new Point(333, 134);
             pictureBoxMain.Name = "pictureBoxMain";
             pictureBoxMain.Size = new Size(52, 63);
             pictureBoxMain.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -1217,40 +1262,55 @@
             labelVersion.BackColor = Color.Transparent;
             labelVersion.Font = new Font("Segoe UI", 6F, FontStyle.Regular, GraphicsUnit.Point);
             labelVersion.ForeColor = Color.Yellow;
-            labelVersion.Location = new Point(347, 612);
+            labelVersion.Location = new Point(347, 600);
             labelVersion.Name = "labelVersion";
-            labelVersion.Size = new Size(10, 88);
+            labelVersion.Size = new Size(10, 99);
             labelVersion.TabIndex = 33;
             labelVersion.Text = "2.0.2";
             labelVersion.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // pictureBox6
+            // pictureBoxUpToDate
             // 
-            pictureBox6.BackColor = Color.Transparent;
-            pictureBox6.BackgroundImage = Properties.Resources.updated;
-            pictureBox6.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox6.Cursor = Cursors.Hand;
-            pictureBox6.Location = new Point(315, 61);
-            pictureBox6.Name = "pictureBox6";
-            pictureBox6.Size = new Size(32, 32);
-            pictureBox6.TabIndex = 34;
-            pictureBox6.TabStop = false;
-            pictureBox6.Click += pictureBox6_Click;
+            pictureBoxUpToDate.BackColor = Color.Transparent;
+            pictureBoxUpToDate.BackgroundImage = Properties.Resources.updated;
+            pictureBoxUpToDate.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBoxUpToDate.Cursor = Cursors.Hand;
+            pictureBoxUpToDate.Location = new Point(315, 61);
+            pictureBoxUpToDate.Name = "pictureBoxUpToDate";
+            pictureBoxUpToDate.Size = new Size(32, 32);
+            pictureBoxUpToDate.TabIndex = 34;
+            pictureBoxUpToDate.TabStop = false;
+            pictureBoxUpToDate.Visible = false;
+            pictureBoxUpToDate.Click += pictureBox6_Click;
+            // 
+            // pictureBoxUpdate
+            // 
+            pictureBoxUpdate.BackColor = Color.Transparent;
+            pictureBoxUpdate.BackgroundImage = Properties.Resources.download;
+            pictureBoxUpdate.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBoxUpdate.Cursor = Cursors.Hand;
+            pictureBoxUpdate.Location = new Point(315, 61);
+            pictureBoxUpdate.Name = "pictureBoxUpdate";
+            pictureBoxUpdate.Size = new Size(32, 32);
+            pictureBoxUpdate.TabIndex = 34;
+            pictureBoxUpdate.TabStop = false;
+            pictureBoxUpdate.Visible = false;
+            pictureBoxUpdate.Click += pictureBoxUpdate_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Magenta;
+            BackColor = Color.Gray;
             BackgroundImage = Properties.Resources.result__1_2;
-            ClientSize = new Size(404, 700);
-            Controls.Add(pictureBox6);
+            ClientSize = new Size(390, 700);
+            Controls.Add(pictureBoxMain);
+            Controls.Add(panelAnasayfa);
+            Controls.Add(pictureBoxUpdate);
+            Controls.Add(pictureBoxUpToDate);
             Controls.Add(label8);
             Controls.Add(labelVersion);
-            Controls.Add(panelAnasayfa);
             Controls.Add(progressBar1);
-            Controls.Add(pictureBoxMain);
-            Controls.Add(pictureBoxLog);
             Controls.Add(label12);
             Controls.Add(button4);
             Controls.Add(labelStatus);
@@ -1258,16 +1318,19 @@
             Controls.Add(pictureBox2);
             Controls.Add(checkBox1);
             Controls.Add(button1);
-            Controls.Add(pictureBoxSettings);
             Controls.Add(groupBoxSettings);
             Controls.Add(groupBoxLog);
             Controls.Add(pictureBox1);
             Controls.Add(labelFish);
             Controls.Add(label2);
             Controls.Add(labelDate);
+            Controls.Add(pictureBoxLog);
+            Controls.Add(pictureBoxSettings);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form1";
             Text = "Captain Hook";
+            TopMost = true;
             FormClosing += Form1_FormClosing_1;
             Load += Form1_Load;
             KeyDown += Form1_KeyDown;
@@ -1280,6 +1343,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             panelAnasayfa.ResumeLayout(false);
             panelAnasayfa.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxFishBait).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxSettings).EndInit();
             groupBoxSettings.ResumeLayout(false);
             groupBoxSettings.PerformLayout();
@@ -1295,7 +1359,8 @@
             groupBoxLog.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxLog).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxMain).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxUpToDate).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxUpdate).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1399,6 +1464,10 @@
         private PictureBox pictureBox5;
         private Label labelStatus;
         private Label labelVersion;
-        private PictureBox pictureBox6;
+        private PictureBox pictureBoxUpToDate;
+        private PictureBox pictureBoxUpdate;
+        private PictureBox pictureBoxFishBait;
+        private Label labelFishBait;
+        private Label label6;
     }
 }

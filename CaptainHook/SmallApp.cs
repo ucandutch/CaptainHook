@@ -44,7 +44,31 @@ namespace CaptainHook
             get { return labelSmallStatus.Text; }
             set { labelSmallStatus.Text = value; }
         }
-
+        public string LabelTextFishBait
+        {
+            get { return labelSmallFishBait.Text; }
+            set { labelSmallFishBait.Text = value; }
+        }
+        public string LabelTextToplamOlta
+        {
+            get { return labelSmallToplamOlta.Text; }
+            set { labelSmallToplamOlta.Text = value; }
+        }
+        public string LabelTextCoordinate
+        {
+            get { return labelSmallCoordinate.Text; }
+            set { labelSmallCoordinate.Text = value; }
+        }
+        public string LabelTextOltadakiSure
+        {
+            get { return labelSmallOltadakiSure.Text; }
+            set { labelSmallOltadakiSure.Text = value; }
+        }
+        public string LabelTextPause
+        {
+            get { return labelSmallPause.Text; }
+            set { labelSmallPause.Text = value; }
+        }
         // Public method to set button click event
         public void StartButonu(EventHandler eventHandler)
         {
@@ -122,6 +146,11 @@ namespace CaptainHook
         private void buttonSmallLocation_Click(object sender, EventArgs e)
         {
             MainFormReference.getnewlocation();
+        }
+
+        private void labelSmallStatus_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

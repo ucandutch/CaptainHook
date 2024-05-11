@@ -63,6 +63,36 @@ namespace CaptainHook.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap download {
+            get {
+                object obj = ResourceManager.GetObject("download", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap homebutton {
+            get {
+                object obj = ResourceManager.GetObject("homebutton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap logsbutton {
+            get {
+                object obj = ResourceManager.GetObject("logsbutton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap Menu_Button {
             get {
                 object obj = ResourceManager.GetObject("Menu Button", resourceCulture);
@@ -264,6 +294,46 @@ namespace CaptainHook.Properties {
         public static System.Drawing.Bitmap settingsbutton1 {
             get {
                 object obj = ResourceManager.GetObject("settingsbutton1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap settingsbutton2 {
+            get {
+                object obj = ResourceManager.GetObject("settingsbutton2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap settingsbutton21 {
+            get {
+                object obj = ResourceManager.GetObject("settingsbutton21", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap smallerbutton {
+            get {
+                object obj = ResourceManager.GetObject("smallerbutton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap smallhomebutton {
+            get {
+                object obj = ResourceManager.GetObject("smallhomebutton", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

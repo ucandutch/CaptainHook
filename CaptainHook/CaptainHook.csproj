@@ -9,8 +9,8 @@
     <StartupObject></StartupObject>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <AssemblyName>$(MSBuildProjectName)</AssemblyName>
-    <AssemblyVersion>2.0.14</AssemblyVersion>
-    <FileVersion>2.0.14</FileVersion>
+    <AssemblyVersion>2.1.0</AssemblyVersion>
+    <FileVersion>2.1.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
