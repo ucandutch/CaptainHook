@@ -23,11 +23,10 @@ Auto Fishing app for the game Albion Online, automated via various makros and ke
 
 For first time users
 
-```bash
- 1. Go to Releases and download the Setup.exe from the latest release.
+ 1. Click [here](https://github.com/ucandutch/CaptainHook/releases) or Go to Releases and download the Setup.exe from the latest release.
   
  2. Run the Setup.exe and it will create the app as CaptainHook.exe on your desktop.
 
  3. Run the app as administrator and enjoy.
-```
+
     
