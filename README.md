@@ -14,7 +14,9 @@ For first time users
  3. Run the app as administrator and enjoy.
 
 ## Screenshots
-![Ss 1](https://github.com/ucandutch/CaptainHook/blob/e65e0ad8538e20ae76652892cfe7e2d5f1197b84/Screenshot%202024-05-13%20200151.png)  ![Ss 2](https://github.com/ucandutch/CaptainHook/blob/e65e0ad8538e20ae76652892cfe7e2d5f1197b84/Screenshot%202024-05-13%20200227.png) 
+### Main App Window
+![Ss 1](https://github.com/ucandutch/CaptainHook/blob/e65e0ad8538e20ae76652892cfe7e2d5f1197b84/Screenshot%202024-05-13%20200151.png)  ![Ss 2](https://github.com/ucandutch/CaptainHook/blob/e65e0ad8538e20ae76652892cfe7e2d5f1197b84/Screenshot%202024-05-13%20200227.png)   
+### Small App Window (Optional)
 ![Ss3](https://github.com/ucandutch/CaptainHook/blob/e65e0ad8538e20ae76652892cfe7e2d5f1197b84/Screenshot%202024-05-13%20200329.png)
 
 ## Features
